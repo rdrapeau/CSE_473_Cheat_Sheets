@@ -15,26 +15,41 @@
 \begin{document}
 
     \begin{multicols*}{1}
-        \section{Agents}
+        \section*{Agents}
             \textbf{Rational:} Maximally achieving goals (actions that maximize utility function) \\
             \textbf{Reflex Based:} Chooses action based on current percept (no future consideration)\\
             \textbf{Goal Based:} Chooses action based on consequences (model of how the world reacts)\\
-            \textbf{Utility Based:} Goal based with trading off of multiple goals and uses probabilities \\
-
-        \section{Searching}
+            \textbf{Utility Based:} Goal based with trading off of multiple goals and uses probabilities
+        \section*{Search}
+            \textbf{Def:} Possible states, Successor function $f(n) \to$ ($n'$, action, cost), start and goal state\\
             \textbf{Complete:} Guaranteed to find a solution if one exists\\
             \textbf{Optimal:} Guaranteed to find the least cost path\\
             \textbf{Properties:} n$ =$ number of states, b$ =$ maximum branching factor, $C^*$$ =$ optimal cost, d$ =$ depth of shallowest solution, m$ =$ max depth, $\epsilon =$ min cost of all actions\\
-            \textbf{Heuristic $h(n)$:} An estimate of how close a state is to a goal\\
-            \textbf{Admissible:} Always an underestimate to the true lowest cost\\
-            \textbf{Consistent:} Always $h(n) <= h(n') + stepCost(n')$ where n' is a neighbor of n\\
+            \textbf{Conformant Planning:} Set of actions that always work (sterilizing surgical gear)
+        \section*{Blind Search}
             \textbf{DFS:} Fringe uses a Stack, complete iff finite, not optimal, time: O(b$^{m}$), space: O(bm)\\
             \textbf{BFS:} Fringe uses a Queue, complete, optimal (constant), time and space: O(b$^{d}$)\\
             \textbf{IDDFS:} Fringe uses a Stack, complete, optimal (constant), time: O(b$^{d}$), space: O(bm)
+        \section*{Heuristic Search}
+            \textbf{Heuristic $h(n)=$} An estimate of how close a state is to a goal\\
+            \textbf{Admissible:} Always an underestimate to the true lowest cost\\
+            \textbf{Consistent:} Always $h(n) <= h(n') + stepCost(n')$ where n' is a neighbor of n\\
             \textbf{Best First:} Fringe uses a PriorityQueue with cost fuction for each node\\
             \textbf{Uniform Cost:} Best First with $f(n)=$ sum of edge costs from  start to n (explores increasing contours), complete, optimal, time and space: O($b^{\frac{C^*}{\epsilon}}$)\\
             \textbf{Greedy:} Best First with $f(n)= h(n)$ (suboptimal goal is common)\\
             \textbf{A$^*$:} Best First with $f(n)= g(n) + h(n)$ with $g(n)=$ sum of costs from start to n\\
+            \textbf{IDA$^*$:} Depth bound is now $F_{limit} = h(start)$, prune if $f(n) > F_{limit}$,\\ $F_{limit}' = min(pruned\ nodes)$, uses space of DFS, time depends on \# of unique F values\\
+            \textbf{Beam:} Best First with $|Fringe| = K$, not complete, time: O($b^d$), space: O($b + K$)\\
+            \textbf{Hill Climbing:} Always choose best child (Beam Search with K = 1)\\
+            \textbf{Tabu:} Keep fixed length queue of states to not visit again (use with hill climbing)\\
+        \section*{Stochastic Search}
+            \textbf{Hill Climbing++ Restarts:} Generate random state when plateaued\\
+            \textbf{Hill Climbing++ Walk:} With prob $p$ move to the neighbor with largest value, with $(1 - p)$ move to a random neighbor\\
+            \textbf{Hill Climbing++ (Both):} Greedy move, random walk, or random restart\\
+            \textbf{Simulated Annealing:} Pick a random neighbor and calculate the change in `energy' or objective function $\delta$, if it is positive then move to that state. Otherwise, move to this state with probability $e^\frac{\delta}{T}$ where T is decreased as the algorithm runs longer. High T $\to$ probability of bad move is higher and vice versa\\
+            \textbf{Genetic:} Start with a population of random states, use an evaluation (fitness) function, produce next generation using random selection / crossover / random mutation\\
+            \textbf{Gradient Descent:} Move in the direction of the gradient at each step
+        \section*{Constraint Satisfaction Problems}
     \end{multicols*}
 \end{document}
 
