@@ -50,6 +50,12 @@
             \textbf{Genetic:} Start with a population of random states, use an evaluation (fitness) function, produce next generation using random selection / crossover / random mutation\\
             \textbf{Gradient Descent:} Move in the direction of the gradient at each step
         \section*{Constraint Satisfaction Problems}
+            \textbf{Def:} Goal test is a set of constraints over the state's variables $x_i$ $\in D_i\ or\ D$\\
+            \textbf{Constraint Graphs:} Nodes are variables, (multi)edges show constraints\\
+            \textbf{As Search Problem:} States defined by the values assigned so far, initially empty, Successor function assigns a value to an unassigned variable, and the Goal test checks to see if the current assignment is complete and satisfactory\\
+            \textbf{Improvements:} Fix ordering with variable assignments, check constraints as you go\\
+            \textbf{Forward Checking:} Cross off values that violate a constraint when added to the existing assignment (Immediate neighbors and fail if the set of possible values is empty)\\
+            \textbf{Constraint Propagation:} If X loses a value, neighbors of X need to be rechecked\\
     \end{multicols*}
 \end{document}
 
