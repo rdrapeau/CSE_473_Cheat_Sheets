@@ -49,13 +49,18 @@
             \textbf{Simulated Annealing:} Pick a random neighbor and calculate the change in `energy' or objective function $\delta$, if it is positive then move to that state. Otherwise, move to this state with probability $e^\frac{\delta}{T}$ where T is decreased as the algorithm runs longer. High T $\to$ probability of bad move is higher and vice versa\\
             \textbf{Genetic:} Start with a population of random states, use an evaluation (fitness) function, produce next generation using random selection / crossover / random mutation\\
             \textbf{Gradient Descent:} Move in the direction of the gradient at each step
-        \section*{Constraint Satisfaction Problems}
+        \section*{Constraint Satisfaction Problems (CSPs)}
             \textbf{Def:} Goal test is a set of constraints over the state's variables $x_i$ $\in D_i\ or\ D$\\
             \textbf{Constraint Graphs:} Nodes are variables, (multi)edges show constraints\\
             \textbf{As Search Problem:} States defined by the values assigned so far, initially empty, Successor function assigns a value to an unassigned variable, and the Goal test checks to see if the current assignment is complete and satisfactory\\
             \textbf{Improvements:} Fix ordering with variable assignments, check constraints as you go\\
             \textbf{Forward Checking:} Cross off values that violate a constraint when added to the existing assignment (Immediate neighbors and fail if the set of possible values is empty)\\
+            \textbf{Arc Consistency:} An arc $X \to Y$ is consistent iff for every x in the tail there is some y in the head which could be assigned without violating a constraint\\
             \textbf{Constraint Propagation:} If X loses a value, neighbors of X need to be rechecked\\
+            \textbf{Min Remaining Values:} Choose the variable with fewest legal values in its domain\\
+            \textbf{Max Degree:} Choose the variable in the most constraints with remaining variables\\
+            \textbf{Least Constraining Value:} Given a variable, assign a value that rules out the fewest values in remaining variables\\
+            \textbf{Rationale:} Want to enter most promising branch, but detect failure quickly. MRV and MD choose the variable most likely to cause failure while LCV ensures that an early value choice does not cause failure later
     \end{multicols*}
 \end{document}
 
