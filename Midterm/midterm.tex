@@ -1,0 +1,40 @@
+\documentclass[11pt, a4paper]{article}
+    \usepackage{amsmath, amssymb, amsthm}
+    \usepackage[margin=0.1in, landscape]{geometry}
+    \usepackage{graphicx}
+    \usepackage{verbatim}
+    \usepackage{multicol}
+    \usepackage[compact]{titlesec}
+    \usepackage{transparent}
+    \usepackage{eso-pic}
+
+    \titlespacing*{\section}{0pt}{-5pt}{0pt}
+    \linespread{1.35}
+    \setlength{\columnseprule}{0.4pt}
+
+\begin{document}
+
+    \begin{multicols*}{1}
+        \section{Agents}
+            \textbf{Rational:} Maximally achieving goals (actions that maximize utility function) \\
+            \textbf{Reflex Based:} Chooses action based on current percept (no future consideration)\\
+            \textbf{Goal Based:} Chooses action based on consequences (model of how the world reacts)\\
+            \textbf{Utility Based:} Goal based with trading off of multiple goals and uses probabilities \\
+
+        \section{Searching}
+            \textbf{Complete:} Guaranteed to find a solution if one exists\\
+            \textbf{Optimal:} Guaranteed to find the least cost path\\
+            \textbf{Properties:} n$ =$ number of states, b$ =$ maximum branching factor, $C^*$$ =$ optimal cost, d$ =$ depth of shallowest solution, m$ =$ max depth, $\epsilon =$ min cost of all actions\\
+            \textbf{Heuristic $h(n)$:} An estimate of how close a state is to a goal\\
+            \textbf{Admissible:} Always an underestimate to the true lowest cost\\
+            \textbf{Consistent:} Always $h(n) <= h(n') + stepCost(n')$ where n' is a neighbor of n\\
+            \textbf{DFS:} Fringe uses a Stack, complete iff finite, not optimal, time: O(b$^{m}$), space: O(bm)\\
+            \textbf{BFS:} Fringe uses a Queue, complete, optimal (constant), time and space: O(b$^{d}$)\\
+            \textbf{IDDFS:} Fringe uses a Stack, complete, optimal (constant), time: O(b$^{d}$), space: O(bm)
+            \textbf{Best First:} Fringe uses a PriorityQueue with cost fuction for each node\\
+            \textbf{Uniform Cost:} Best First with $f(n)=$ sum of edge costs from  start to n (explores increasing contours), complete, optimal, time and space: O($b^{\frac{C^*}{\epsilon}}$)\\
+            \textbf{Greedy:} Best First with $f(n)= h(n)$ (suboptimal goal is common)\\
+            \textbf{A$^*$:} Best First with $f(n)= g(n) + h(n)$ with $g(n)=$ sum of costs from start to n\\
+    \end{multicols*}
+\end{document}
+
