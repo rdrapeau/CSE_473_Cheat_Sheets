@@ -8,7 +8,7 @@
     \usepackage{transparent}
     \usepackage{eso-pic}
     \usepackage[nodisplayskipstretch]{setspace} \setstretch{1.5}
-
+    \DeclareMathOperator*{\argmax}{\arg\!\max}
     \usepackage{etoolbox}
     \preto{\verbatim}{\edef\tempstretch{\baselinestretch}\par\setstretch{1}}
     \appto{\endverbatim}{\vspace{-\tempstretch\baselineskip}\vspace{\baselineskip}}
@@ -96,9 +96,13 @@ def value(state, agent, alpha, beta):
             \textbf{Preferences:} A is preferred to B: $A \succ B$, A is indifferent to B: $A \sim B$\\
             \textbf{Rationality:} Orderability: $(A \succ B) \vee (B \succ A) \vee (A \sim B)$,\\ Transitivity: $(A \succ B) \land (B \succ C) \implies (A \succ C)$,\\ Continuity: $A \succ B \succ C \implies \exists_{p} [p, A: 1 - p, C] \succ B$, \\Substitutability: $A \sim B \implies [p, A: 1 - p, C] \sim [q, B: 1 - q, C]$, \\Monotonicity: $A \succ B \implies (p \geq q \iff [p, A: 1 - p, B] \succeq [q, A: 1 - q, B]$
         \section*{Markov Decision Processes}
-            \textbf{Def:} states s $\in$ S, actions a $\in$ A, Transition $T(s, a, s')$ or $P(s' | s, a)$, Reward $R(s)$\\
+            \textbf{Def:} states, actions, Transition $T(s, a, s')$ or $P(s' | s, a)$, Reward $R(s, a, s')$ or $R(s)$\\
             \textbf{Policy:} $\pi^{*}: S \to A$, gives an optimal action for all states\\
-            \textbf{Discounting:} Each time a level is descended multiply by another factor of $\gamma$, Sooner rewards have higher utility than later rewards and helps algorithm converge\\
+            \textbf{Discounting:} Each time a level is descended multiply by another factor of $\gamma$, Sooner rewards have higher utility than later rewards and helps algorithm converge: $U([r_0, r_1, ...]) = r_0 + \gamma r_1 + \gamma^2r_2 + ...$\\
+            \textbf{Bellman Equations:} $V^*(s) = \max\limits_{a} Q^*(s, a) = $ utility starting in s and then acting optimally, $Q^*(s, a) = \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V^*(s')] = $ utility starting after taking action a in s then acting optimally\\
+            \textbf{Value Iteration:} $V_0(s) = 0$, given $V_k(s)$ simultaneously solve one ply of expectimax from each state: $V_{k + 1}(s) \gets \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V_k^*(s')]$ with Time: $O(|S|^2|A|)$\\
+            \textbf{Policy Extraction:} Given the optimal values, $V^*(s)$, $\pi^*(s) = \argmax\limits_{a} Q^*(s, a)$\\
+
     \end{multicols*}
 \end{document}
 
