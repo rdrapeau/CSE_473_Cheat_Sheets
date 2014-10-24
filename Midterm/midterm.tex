@@ -7,10 +7,17 @@
     \usepackage[compact]{titlesec}
     \usepackage{transparent}
     \usepackage{eso-pic}
+    \usepackage[nodisplayskipstretch]{setspace} \setstretch{1.5}
 
+    \usepackage{etoolbox}
+    \preto{\verbatim}{\edef\tempstretch{\baselinestretch}\par\setstretch{1}}
+    \appto{\endverbatim}{\vspace{-\tempstretch\baselineskip}\vspace{\baselineskip}}
     \titlespacing*{\section}{0pt}{-5pt}{0pt}
     \linespread{1.35}
     \setlength{\columnseprule}{0.4pt}
+    \makeatletter
+    \preto{\@verbatim}{\topsep=0pt \partopsep=0pt }
+    \makeatother
 
 \begin{document}
 
@@ -34,7 +41,7 @@
             \textbf{Heuristic $h(n)=$} An estimate of how close a state is to a goal\\
             \textbf{Admissible:} Always an underestimate to the true lowest cost\\
             \textbf{Consistent:} Always $h(n) <= h(n') + stepCost(n')$ where n' is a neighbor of n\\
-            \textbf{Best First:} Fringe uses a PriorityQueue with cost fuction for each node\\
+            \textbf{Best First:} Fringe uses a PriorityQueue with cost fuction $f(n)$ for each node\\
             \textbf{Uniform Cost:} Best First with $f(n)=$ sum of edge costs from  start to n (explores increasing contours), complete, optimal, time and space: O($b^{\frac{C^*}{\epsilon}}$)\\
             \textbf{Greedy:} Best First with $f(n)= h(n)$ (suboptimal goal is common)\\
             \textbf{A$^*$:} Best First with $f(n)= g(n) + h(n)$ with $g(n)=$ sum of costs from start to n\\
@@ -52,7 +59,7 @@
         \section*{Constraint Satisfaction Problems (CSPs)}
             \textbf{Def:} Goal test is a set of constraints over the state's variables $x_i$ $\in D_i\ or\ D$\\
             \textbf{Constraint Graphs:} Nodes are variables, (multi)edges show constraints\\
-            \textbf{As Search Problem:} States defined by the values assigned so far, initially empty, Successor function assigns a value to an unassigned variable, and the Goal test checks to see if the current assignment is complete and satisfactory\\
+            \textbf{As a Search Problem:} States defined by the values assigned so far, initially empty, Successor function assigns a value to an unassigned variable, and the Goal test checks to see if the current assignment is complete and satisfactory\\
             \textbf{Improvements:} Fix ordering with variable assignments, check constraints as you go\\
             \textbf{Forward Checking:} Cross off values that violate a constraint when added to the existing assignment (Immediate neighbors and fail if the set of possible values is empty)\\
             \textbf{Arc Consistency:} An arc $X \to Y$ is consistent iff for every x in the tail there is some y in the head which could be assigned without violating a constraint\\
@@ -61,6 +68,37 @@
             \textbf{Max Degree:} Choose the variable in the most constraints with remaining variables\\
             \textbf{Least Constraining Value:} Given a variable, assign a value that rules out the fewest values in remaining variables\\
             \textbf{Rationale:} Want to enter most promising branch, but detect failure quickly. MRV and MD choose the variable most likely to cause failure while LCV ensures that an early value choice does not cause failure later
+        \newpage
+        \section*{Constraint Satisfaction Problems II (CSPs)}
+            \textbf{Trees:} Choose a root variable, order the other variables so parents precede children. Remove Backward: For i = n : 2, apply RemoveIncosistent(Parent($x_i$), $x_i$) then Assign Forward: For i = 1 : n, assign $x_i$ consistently with Parent($x_i$). Time: O($nd^2$)\\
+            \textbf{Proof:} After backward pass, all root-to-leaf arcs are consistent, no backtracking\\
+            \textbf{Nearly Tree-Structured:} instantiate (in all ways) a set of variables such that the remaining constraint graph is a tree, Time: O($d^c(n - c)d^2$)\\
+            \textbf{Iterative Improvement:} Randomly select conflicted variable, choose a value that violates the fewest constraints (hill climb with $h(n)=$ number of violated constraints)
+        \section*{Adversarial Search}
+            \textbf{Minimax:} The opitmal utility with a rational adversary, Time: O($b^m$), Space: O($bm$)\\
+            \textbf{Pruning:} $\alpha$ is Max's best choise on a path to root. If the best value becomes worse than $\alpha$, no point in exploring children. Similiar for $\beta$. Time: O($b^{m / 2}$)
+            \begin{verbatim}
+def value(state, agent, alpha, beta):
+    for each successor of state:
+        if agent == 0:
+            v = max(v, value(successor, agent + 1, alpha, beta))
+            if v >= beta: return v
+            alpha = max(alpha, v)
+        else:
+            v = min(v, value(successor, agent + 1, alpha, beta))
+            if v <= alpha: return v
+            beta = min(beta, v)
+    return v
+            \end{verbatim}
+            \textbf{Heuristic Evaluation:} Scores non-terminals and returns utility of the state\\
+            \textbf{Utility:} Function from state to real numbers that describe an agent's preferences\\
+            \textbf{Expectimax:} Instead of the min value being chosen, the expected value for that state is returned: $\sum_{i} [value(successor_{i}) * P(successor_{i})]$\\
+            \textbf{Preferences:} A is preferred to B: $A \succ B$, A is indifferent to B: $A \sim B$\\
+            \textbf{Rationality:} Orderability: $(A \succ B) \vee (B \succ A) \vee (A \sim B)$,\\ Transitivity: $(A \succ B) \land (B \succ C) \implies (A \succ C)$,\\ Continuity: $A \succ B \succ C \implies \exists_{p} [p, A: 1 - p, C] \succ B$, \\Substitutability: $A \sim B \implies [p, A: 1 - p, C] \sim [q, B: 1 - q, C]$, \\Monotonicity: $A \succ B \implies (p \geq q \iff [p, A: 1 - p, B] \succeq [q, A: 1 - q, B]$
+        \section*{Markov Decision Processes}
+            \textbf{Def:} states s $\in$ S, actions a $\in$ A, Transition $T(s, a, s')$ or $P(s' | s, a)$, Reward $R(s)$\\
+            \textbf{Policy:} $\pi^{*}: S \to A$, gives an optimal action for all states\\
+            \textbf{Discounting:} Each time a level is descended multiply by another factor of $\gamma$, Sooner rewards have higher utility than later rewards and helps algorithm converge\\
     \end{multicols*}
 \end{document}
 
