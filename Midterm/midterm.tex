@@ -102,7 +102,19 @@ def value(state, agent, alpha, beta):
             \textbf{Bellman Equations:} $V^*(s) = \max\limits_{a} Q^*(s, a) = $ utility starting in s and then acting optimally, $Q^*(s, a) = \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V^*(s')] = $ utility starting after taking action a in s then acting optimally\\
             \textbf{Value Iteration:} $V_0(s) = 0$, given $V_k(s)$ simultaneously solve one ply of expectimax from each state: $V_{k + 1}(s) \gets \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V_k^*(s')]$ with Time: $O(|S|^2|A|)$\\
             \textbf{Policy Extraction:} Given the optimal values, $V^*(s)$, $\pi^*(s) = \argmax\limits_{a} Q^*(s, a)$\\
-
+            \textbf{Problems:} Slow, max at each state rarely changes and the policy often converges long before the values do\\
+            \textbf{Asynchronous Value Iteration:} Not essential to back up all states in each iteration as long as no state is starved. Backup with a heap of states ordered by the expected change in value (prefer backing a state whose successors had most change\\
+            \textbf{Policy Evaluation:} compute the utility of a state s under a fixed policy: $V^\pi(s) =$ expected total discounted rewards starting in s and following $\pi$\\
+            \textbf{Policy Iteration:} Initialize $\pi(s)$ to random actions, calculate utilities of $\pi$ at each s using a nested loop, update policy using one-step look-ahead to see what's the best action I could execute, assuming I then follow $\pi(s)$\\
+            \hspace*{5 mm}Initialize $\pi_i(s)$ to random actions and $i = 0$. Repeat:\\
+            \hspace*{10 mm}Step 1: Policy Evaluation:\\
+            \hspace*{15 mm}Initialize $k = 0$ and for each s, $V_0^\pi(s) = 0$ and repeat until $V^\pi$ converges:\\
+            \hspace*{15 mm}For each s $V_{k + 1}^{\pi_i}(s) \gets \sum\limits_{s'} T(s, \pi_i(s), s') [R(s, \pi_i(s), s') + \gamma V_k^{\pi_i}(s')]$\\
+            \hspace*{15 mm}$k++$\\
+            \hspace*{10 mm}Step 2: Policy Improvement:\\
+            \hspace*{15 mm}For each s, $\pi_{i + 1}(s) = \argmax\limits_{a} \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V^{\pi_i}(s')]$\\
+            \hspace*{15 mm}If $\pi_i == \pi_{i + 1}$, then it is optimal\\
+            \hspace*{15 mm}Else let $i++$
     \end{multicols*}
 \end{document}
 
