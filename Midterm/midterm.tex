@@ -109,7 +109,7 @@ def value(state, agent, alpha, beta):
             \hspace*{5 mm}Initialize $\pi_i(s)$ to random actions and $i = 0$. Repeat:\\
             \hspace*{10 mm}Step 1: Policy Evaluation:\\
             \hspace*{15 mm}Initialize $k = 0$ and for each s, $V_0^\pi(s) = 0$ and repeat until $V^\pi$ converges:\\
-            \hspace*{15 mm}For each s $V_{k + 1}^{\pi_i}(s) \gets \sum\limits_{s'} T(s, \pi_i(s), s') [R(s, \pi_i(s), s') + \gamma V_k^{\pi_i}(s')]$\\
+            \hspace*{20 mm}For each s $V_{k + 1}^{\pi_i}(s) \gets \sum\limits_{s'} T(s, \pi_i(s), s') [R(s, \pi_i(s), s') + \gamma V_k^{\pi_i}(s')]$\\
             \hspace*{15 mm}$k++$\\
             \hspace*{10 mm}Step 2: Policy Improvement:\\
             \hspace*{15 mm}For each s, $\pi_{i + 1}(s) = \argmax\limits_{a} \sum\limits_{s'} T(s, a, s') [R(s, a, s') + \gamma V^{\pi_i}(s')]$\\
